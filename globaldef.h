@@ -1,4 +1,9 @@
 #include <stdbool.h>
+#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+
+
 #ifndef __GLOBALDEF__
 #define __GLOBALDEF__
 	//these are global defines
@@ -30,6 +35,14 @@
 	#define sprfextension ".png"
 	#define replayfextension ".rpl"
 
+	/*Platform list (not that all of these will get implemented just define names for IF they get implemented:
+	PLATFORM_PC:take a guess
+	PLATFORM_3DSHB:3DS Homebrew
+	PLATFORM_SWHB:Switch Homebrew
+	PLATFORM_PS1:whaddya think
+	PLATFORM_PSP:duh
+	*/
+
 	//platform 
 	#define PLATFORM_PC
 
@@ -39,11 +52,12 @@
 	//renderer typedefs
 	#ifdef RENDERER_SDL
 		#include <SDL.h>
-		#define Engine_Texture SDL_Texture
+		#include <SDL_image.h>
+		#define Renderer_Texture SDL_Texture
 		#define Renderer_Rect SDL_Rect
 		#define INPUT_SDL //input is seperate from rendering but if using sdl for rendering might as well use it for keyboard too
 	#else
-		#define Engine_Texture unsigned char
+		#define Renderer_Texture unsigned char
 		typedef struct {
 			unsigned short x;
 			unsigned short y;
@@ -52,4 +66,11 @@
 		} Renderer_Rect;
 	#endif
 
+#endif
+
+//includes
+
+#ifdef RENDERER_SDL
+	#include <SDL.h>
+	#include <SDL_image.h>
 #endif
