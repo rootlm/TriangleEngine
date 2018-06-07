@@ -1,6 +1,6 @@
 //Includes
 #include "globaldef.h"
-#include "globalincludes.h"
+#include "render.h"
 
 //main loop flag
 //bool quit = false;
@@ -11,7 +11,7 @@
 int main( int argc, char* args[] )
 {
 	quit = false;
-	//InitWindow();
+	RendererInit();
 	//InitKeys();
 	//InitObjects();
 	//printf("Input Test - Press Z To Quit\n");
@@ -23,7 +23,7 @@ int main( int argc, char* args[] )
 
 //------------------------------------------GAME LOOP
 	while (!quit) {
-		//EventHandler();
+		EventHandler();
 		//UpdateKeys();
 		//printf("%i %i\n",game->replay.inputpos,game->replay.numinputs);
 		//Game_Step();
@@ -31,7 +31,7 @@ int main( int argc, char* args[] )
 		//printf("Object Count:%i\n",objectcount());
 	}
 
-
+	RendererClose();
 	//Game_Quit();
 return 0;
 }
