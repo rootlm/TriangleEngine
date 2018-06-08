@@ -8,8 +8,7 @@
 
 //=======================================================
 //Main loop
-int main( int argc, char* args[] )
-{
+int main( int argc, char* args[] ) {
 	quit = false;
 	RendererInit();
 	//InitKeys();
@@ -19,17 +18,22 @@ int main( int argc, char* args[] )
 	//InitSprites();
 
 	//testfont=Engine_LoadFont("MSG");
+
+	Engine_Texture* fuck=Engine_LoadGraphic("SprX.png");
 	
 
 //------------------------------------------GAME LOOP
 	while (!quit) {
-		EventHandler();
 		//UpdateKeys();
 		//printf("%i %i\n",game->replay.inputpos,game->replay.numinputs);
 		//Game_Step();
 		//printf("Y:%f\n",objects[0]->y);
 		//printf("Object Count:%i\n",objectcount());
+		draw_texture_screen(fuck->texture);
+		Renderer_Present();
+		EventHandler();
 	}
+	Engine_DestroyGraphic(fuck);
 
 	RendererClose();
 	//Game_Quit();

@@ -45,6 +45,7 @@
 		if (game_tex != NULL) {
 			SDL_DestroyTexture(game_tex);
 		}
+		IMG_Quit();
 		SDL_Quit();
 	}
 
@@ -68,6 +69,15 @@
 		SDL_QueryTexture(newTexture->texture,NULL,NULL,&newTexture->width,&newTexture->height);
 
 	return newTexture;
+	}
+
+	void Engine_DestroyGraphic(Engine_Texture* graphic) {
+		//printf("%i\n",graphic);
+		printf("%i\n",graphic->texture);
+		SDL_DestroyTexture(graphic->texture);
+		printf("%i\n",graphic);
+		printf("%i\n",graphic->texture);
+		free(graphic);
 	}
 
 	void draw_texture_screen(SDL_Texture* tex) {

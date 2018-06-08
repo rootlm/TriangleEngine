@@ -59,6 +59,7 @@ Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);*/
 		void RendererInit();
 		void EventHandler();
 		Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);
+		void Engine_DestroyGraphic(Engine_Texture* graphic);
 		void draw_texture_screen(SDL_Texture* tex);
 		void ChangeResScale(float scale);
 		#define Renderer_SetDrawColor(r,g,b,a) SDL_SetRenderDrawColor(renderer,r,g,b,a)
@@ -79,6 +80,7 @@ Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);*/
 		#define RendererClose()
 		#define EventHandler()
 		#define Engine_LoadGraphic(f)
+		#define Engine_DestroyGraphic(g)
 		#define draw_texture_screen(t)
 		#define ChangeResScale(s)
 
