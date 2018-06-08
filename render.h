@@ -15,8 +15,10 @@
 
 	SDL_Event evunion;
 
+	SDL_Texture* game_tex; //holds the actual game part of the screen (which will be drawn to hud then scaled)
+
 	typedef struct {
-		SDL_Texture* data; //the image itself
+		SDL_Texture* texture; //the image itself
 		unsigned short width;
 		unsigned short height;
 	} Engine_Texture;
@@ -24,8 +26,6 @@
 	#define Engine_Texture unsigned char
 
 #endif
-
-//Engine_Texture* game_tex; //holds the actual game part of the screen (which will be drawn to hud then scaled)
 
 typedef struct {
 	unsigned char r;
@@ -58,6 +58,9 @@ Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);*/
 	#ifdef RENDERER_SDL
 		void RendererInit();
 		void EventHandler();
+		Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);
+		void draw_texture_screen(SDL_Texture* tex);
+		void ChangeResScale(float scale);
 		#define Renderer_SetDrawColor(r,g,b,a) SDL_SetRenderDrawColor(renderer,r,g,b,a)
 		#define Renderer_Clear() SDL_RenderClear(renderer)
 		#define Renderer_Present() SDL_RenderPresent(renderer)
@@ -75,6 +78,9 @@ Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename);*/
 		#define RendererInit()
 		#define RendererClose()
 		#define EventHandler()
+		#define Engine_LoadGraphic(f)
+		#define draw_texture_screen(t)
+		#define ChangeResScale(s)
 
 		#define Renderer_SetDrawColor(r,g,b,a)
 		#define Renderer_Clear()

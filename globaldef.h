@@ -11,8 +11,8 @@
 	#define SCREEN_WIDTH 960
 	#define SCREEN_HEIGHT 720
 
-	#define GAME_WIDTH 576
-	#define GAME_HEIGHT 672
+	#define GAME_WIDTH 320
+	#define GAME_HEIGHT 240
 	#define APPTITLE "Triangle Engine"
 
 	bool quit;
