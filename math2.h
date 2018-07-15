@@ -1,5 +1,8 @@
-#ifndef __MATH2H__
-#define __MATH2H__
+#include <math.h>
+
+#ifndef __MATH2__
+#define __MATH2__
+
 float degtorad(float degtoconv);
 
 float radtodeg(float radtoconv);
@@ -20,8 +23,5 @@ float lengthdir_y(float len, float angle);
 
 float lerp(float v0, float v1, float t);
 
-unsigned long clamp_u(unsigned long val,unsigned long min,unsigned long max);
-
-//#define MAKESHORT(val1,val2) return ((val1 << 8) | val2)
-
+float clampfloat(float val,float min,float max);
 #endif
