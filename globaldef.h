@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 #ifndef __GLOBALDEF__
@@ -11,8 +12,11 @@
 	#define SCREEN_WIDTH 960
 	#define SCREEN_HEIGHT 720
 
-	#define GAME_WIDTH 320
-	#define GAME_HEIGHT 240
+	//#define GAME_WIDTH 320
+	//#define GAME_HEIGHT 240
+
+	#define GAME_WIDTH 480
+	#define GAME_HEIGHT 360
 	#define APPTITLE "Triangle Engine"
 
 	bool quit;
@@ -32,6 +36,7 @@
 	#define replayfolder "replay/"
 
 	//and file extensions?
+	#define gfxfextension ".png"
 	#define sprfextension ".png"
 	#define replayfextension ".rpl"
 
@@ -47,7 +52,13 @@
 	#define PLATFORM_PC
 
 	//renderer (the idea is that if you don't define a renderer the game will run but you won't be able to see anything obviously)
+	//requires changing this and the first thing in the makefile too
 	#define RENDERER_SDL
+
+	/* list:
+	RENDERER_SDL (duh)
+	RENDERER_DUMMY (doesn't display anything or take input obviously)
+	*/
 
 	//renderer typedefs
 	#ifdef RENDERER_SDL
@@ -68,7 +79,7 @@
 
 #endif
 
-//includes
+//GLOBAL LIBRARY includes
 
 #ifdef RENDERER_SDL
 	#include <SDL.h>

@@ -54,7 +54,7 @@ float lerp(float v0, float v1, float t) {
   return (1 - t) * v0 + t * v1;
 }
 
-unsigned long clamp_u(unsigned long val,unsigned long min,unsigned long max) {
+float clampfloat(float val,float min,float max) {
 	if (val < min) {
 		val=min;
 	}
@@ -63,8 +63,3 @@ unsigned long clamp_u(unsigned long val,unsigned long min,unsigned long max) {
 	}
 return val;
 }
-
-/*float clampfloat(float val,float min,float max) {
-
-return val;
-}*/

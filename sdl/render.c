@@ -1,8 +1,9 @@
-#include "globaldef.h"
+#include "../globaldef.h"
 #include "render.h"
+#include "../sprite.h"
+#include "../image.h"
 
-#ifdef RENDERER_SDL //sdl (duh)
-	void RendererInit() {
+	void Renderer_Init() {
 		//Initialize SDL
 		if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 		{
@@ -41,12 +42,21 @@
 		IMG_Init(initimgflags);
 	}
 
-	void RendererClose() {
+	void Renderer_Close() {
 		if (game_tex != NULL) {
 			SDL_DestroyTexture(game_tex);
 		}
 		IMG_Quit();
 		SDL_Quit();
+	}
+
+	void EventHandler() {
+		while (SDL_PollEvent(&evunion) != 0) {
+			//User requests quit
+			if (evunion.type == SDL_QUIT) {
+				quit = true;
+			}
+		}
 	}
 
 	Engine_Texture* Engine_LoadGraphic(const char* loadgfxfilename) {
@@ -55,18 +65,23 @@
 
 		SDL_Surface* loadedSurface = IMG_Load(loadgfxfilename);
 
-		newTexture->texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-
-		if (newTexture == NULL) {
+		if (loadedSurface == NULL) {
 			printf( "Texture %s could not be created! SDL_Error: %s\n", loadgfxfilename, SDL_GetError() );
 		}
 		else {
 			printf( "Texture %s loaded! \n", loadgfxfilename );
 		}
 
+		newTexture->texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+
 		SDL_FreeSurface(loadedSurface);
 
-		SDL_QueryTexture(newTexture->texture,NULL,NULL,&newTexture->width,&newTexture->height);
+		int tw,th;
+
+		SDL_QueryTexture(newTexture->texture,NULL,NULL,&tw,&th);
+
+		newTexture->width=tw;
+		newTexture->height=th;
 
 	return newTexture;
 	}
@@ -90,13 +105,30 @@
 		game_tex = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,GAME_WIDTH,GAME_HEIGHT);
 	}
 
-	void EventHandler() {
-		while (SDL_PollEvent(&evunion) != 0) {
-			//User requests quit
-			if (evunion.type == SDL_QUIT) {
-				quit = true;
-			}
-		}
-	}
+	//--sprite drawing functions--
+	void draw_sprite(unsigned short sprite,unsigned short frame,float x,float y) {
+		SDL_Point sproff;
+		SDL_Rect destrect,frect;
 
-#endif
+		sproff.x=sprites[sprite].data.xoff;
+		sproff.y=sprites[sprite].data.yoff;
+		memcpy(&frect,&sprites[sprite].data.framerect,sizeof(SDL_Rect));
+
+		destrect.x = x-sproff.x;
+		destrect.y = y-sproff.y;
+		destrect.w = sprites[sprite].data.framerect.w;
+		destrect.h = sprites[sprite].data.framerect.h;
+
+		if (sprites[sprite].data.animlength == 0) {
+			frame = 0; //modulo by 0 means rip so 
+		}
+		else if (frame > sprites[sprite].data.animlength) {
+			frame = frame % (sprites[sprite].data.animlength+1); //make sure the frame number is within the animation length!
+		}
+
+		//set part of image to draw based off frame
+		if (sprites[sprite].data.animlength != 0 && sprites[sprite].data.anim != NULL) {
+			frect.x += sprites[sprite].data.framerect.w * sprites[sprite].data.anim[frame];
+		}
+		SDL_RenderCopyEx(renderer,images[sprites[sprite].sheet].data->texture,&frect,&destrect,0,&sproff,SDL_FLIP_NONE);
+	}
