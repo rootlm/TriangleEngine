@@ -5,6 +5,8 @@
 #include "input.h"
 #include "sprite.h"
 #include "image.h"
+#include "object.h"
+#include "game/gameobjects.h"
 
 //=======================================================
 //Main loop
@@ -12,21 +14,19 @@ int main( int argc, char* args[] ) {
 	quit = false;
 		Renderer_Init();
 		Input_Init();
-
-		//Engine_Texture* fuck=Engine_LoadGraphic("SprX.png");
 		Image_Init();
 		Sprite_Init();
-		unsigned short spr=Sprite_Get("SPR_PLAYER");
+
+		Object_Init();
+		Object_Create(0,0,0);
 	while (!quit) {
 		Input_Update();
-		if (keyboard_check_pressed(SDL_SCANCODE_Z)) {
-			quit = true;
-		}
+		Objects_Update();
+
 			Renderer_SetTarget(game_tex);
-			//draw_texture_screen(images[sprites[spr].sheet].data->texture);
-			//draw_texture_screen(fuck->texture);
-			draw_sprite(spr,0,64,64);
+			Objects_Draw();
 			Renderer_ResetTarget();
+
 		draw_texture_screen(game_tex);
 		Renderer_Present();
 
@@ -34,7 +34,8 @@ int main( int argc, char* args[] ) {
 	}
 	Sprite_Close();
 	Image_Close();
-	//Engine_DestroyGraphic(fuck);
+
+	Object_Close();
 
 	Input_Close();
 	Renderer_Close();
