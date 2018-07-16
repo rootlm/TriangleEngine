@@ -5,6 +5,8 @@
 
 	#define MAXOBJECTS 512
 
+	#define ERROR_NO_OBJ 65535
+
 	#define FLAGTYPE unsigned char //which type of value flags are)
 
 	typedef struct {
@@ -21,11 +23,33 @@
 		unsigned char state;
 		unsigned short hp;
 		unsigned short timer;
-	} obj_example;
+	} obj_example_t;
 
-	obj_example** objects;
+	obj_example_t** objects;
 	unsigned short numobjects;
 
 	unsigned short* draworder;
+
+	typedef struct {
+		void(*createfunc)(unsigned short);
+		void(*stepfunc)(unsigned short);
+		void(*drawfunc)(unsigned short);
+	} objfuncs_t;
+
+
+	objfuncs_t* objfuncs;
+
+	void Object_InitArray();
+
+	unsigned short Object_Create(unsigned short type,float x,float y);
+
+	void Objects_Update();
+
+	void Objects_Draw();
+
+	void Object_Delete(unsigned short id);
+
+	void Object_DeleteAll();
+
 
 #endif
