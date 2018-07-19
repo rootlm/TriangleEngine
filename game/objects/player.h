@@ -19,6 +19,7 @@
 		unsigned char state;
 		unsigned short hp;
 		unsigned short timer;
+		bool delete; //mark for deletion in the update loop
 	} obj_player_t;
 
 	void obj_player_create(unsigned short id);
