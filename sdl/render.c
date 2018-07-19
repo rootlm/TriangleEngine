@@ -132,3 +132,32 @@
 		}
 		SDL_RenderCopyEx(renderer,images[sprites[sprite].sheet].data->texture,&frect,&destrect,0,&sproff,SDL_FLIP_NONE);
 	}
+
+	void draw_sprite_ext(unsigned short sprite,unsigned short frame,float x,float y,float xsc,float ysc,short rot) {
+		SDL_Point sproff;
+		SDL_Rect destrect,frect;
+
+		sproff.x=sprites[sprite].data.xoff;
+		sproff.y=sprites[sprite].data.yoff;
+		memcpy(&frect,&sprites[sprite].data.framerect,sizeof(SDL_Rect));
+
+		destrect.x = x-(sproff.x * xsc);
+		destrect.y = y-(sproff.y * ysc);
+		destrect.w = sprites[sprite].data.framerect.w * xsc;
+		destrect.h = sprites[sprite].data.framerect.h * ysc;
+
+		if (sprites[sprite].data.animlength == 0) {
+			frame = 0; //modulo by 0 means rip so 
+		}
+		else if (frame > sprites[sprite].data.animlength) {
+			frame = frame % (sprites[sprite].data.animlength+1); //make sure the frame number is within the animation length!
+		}
+
+		//set part of image to draw based off frame
+		if (sprites[sprite].data.animlength != 0 && sprites[sprite].data.anim != NULL) {
+			frect.x += sprites[sprite].data.framerect.w * sprites[sprite].data.anim[frame];
+		}
+		sproff.x *= xsc;
+		sproff.y *= ysc;
+		SDL_RenderCopyEx(renderer,images[sprites[sprite].sheet].data->texture,&frect,&destrect,rot,&sproff,SDL_FLIP_NONE);
+	}
