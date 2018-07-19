@@ -35,6 +35,7 @@
 	#define ChangeResScale(s)
 
 	#define draw_sprite(ds,df,dx,dy)
+	#define draw_sprite_ext(ds,df,dx,dy,xsc,ysc,rot)
 
 	#define Renderer_SetDrawColor(r,g,b,a)
 	#define Renderer_Clear()

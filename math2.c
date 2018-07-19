@@ -1,6 +1,6 @@
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "math2.h"
-#define _USE_MATH_DEFINES
 
 float degtorad(float degtoconv) {
 return ((degtoconv * M_PI) / 180);

@@ -9,7 +9,7 @@ typedef struct {
 
 keystate_t* globalkeys;
 
-#define KEYBOARDSIZE 255
+#define KEYBOARDSIZE 256
 
 void Input_Init();
 bool keyboard_check(char statetocheck);

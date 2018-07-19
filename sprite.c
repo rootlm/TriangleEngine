@@ -59,8 +59,8 @@ spritedata_t Sprite_Load(const char* filename,char** sheetnameloc) {
 
 		//read anims
 		if (data.animlength > 0) {
-			data.anim = calloc(data.animlength,sizeof(unsigned char));
-			fread(data.anim,data.animlength,1,file);
+			data.anim = calloc(data.animlength+1+1,sizeof(unsigned char));
+			fread(data.anim,1,data.animlength+1,file);
 		}
 		
 		//sheet name
@@ -70,21 +70,7 @@ spritedata_t Sprite_Load(const char* filename,char** sheetnameloc) {
 
 		*sheetnameloc = sheetname;
 
-		bool loadedstr = false;
-		unsigned char i=0;
-
-		char tempchar[2];
-		tempchar[1]=0;
-
-            	while (loadedstr == false && i < namelen) {
-			fread(tempchar,1,1,file);
-                	if (tempchar[0] == 0) {
-                    		loadedstr=true;
-                	}
-                	else {
-                    		strcat(sheetname,tempchar);
-               		}
-            	}
+		fread(sheetname,namelen,1,file);
 		fclose(file);
 	}
 

@@ -49,6 +49,7 @@
 	void ChangeResScale(float scale);
 
 	void draw_sprite(unsigned short sprite,unsigned short frame,float x,float y);
+	void draw_sprite_ext(unsigned short sprite,unsigned short frame,float x,float y,float xsc,float ysc,short rot);
 
 	#define Renderer_SetDrawColor(r,g,b,a) SDL_SetRenderDrawColor(renderer,r,g,b,a)
 	#define Renderer_Clear() SDL_RenderClear(renderer)
