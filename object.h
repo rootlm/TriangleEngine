@@ -23,6 +23,7 @@
 		unsigned char state;
 		unsigned short hp;
 		unsigned short timer;
+		bool delete; //mark for deletion in the update loop
 	} obj_example_t;
 
 	obj_example_t** objects;
@@ -41,13 +42,17 @@
 
 	void Object_InitArray();
 
-	unsigned short Object_Create(unsigned short type,float x,float y);
+	unsigned short Object_Create(float x,float y,unsigned short type);
 
 	void Objects_Update();
 
 	void Objects_Draw();
 
 	void Object_Delete(unsigned short id);
+
+	void Object_MarkForDeletion(unsigned short id);
+	
+	#define Object_DeleteSelf() Object_MarkForDeletion(id); return;
 
 	void Object_DeleteAll();
 

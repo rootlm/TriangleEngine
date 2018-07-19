@@ -5,7 +5,7 @@ void Object_InitArray() {
 	objects = calloc(MAXOBJECTS,sizeof(void*));
 }
 
-unsigned short Object_Create(unsigned short type,float x,float y) {
+unsigned short Object_Create(float x,float y,unsigned short type) {
 	if (numobjects < MAXOBJECTS) {
 		if (objfuncs[type].createfunc != NULL) {
 			objfuncs[type].createfunc(numobjects);
@@ -23,25 +23,30 @@ unsigned short Object_Create(unsigned short type,float x,float y) {
 }
 
 void Objects_Update() {
-	unsigned short i=0;
+	signed short i=0;
 	while (i < numobjects) {
 		if (objects[i] == NULL) {
 			return;
 		}
-		else if (objfuncs[objects[i]->type].stepfunc != NULL) {
+		else if (objfuncs[objects[i]->type].stepfunc != NULL && !objects[i]->delete) {
 			objfuncs[objects[i]->type].stepfunc(i);
+		}
+		if (objects[i]->delete) {
+			objects[i]->delete=false;
+			Object_Delete(i);
+			i--;
 		}
 	i++;
 	}
 }
 
 void Objects_Draw() {
-	unsigned short i=0;
+	signed short i=0;
 	while (i < numobjects) {
 		if (objects[i] == NULL) {
 			return;
 		}
-		else if (objfuncs[objects[i]->type].drawfunc != NULL) {
+		else if (objfuncs[objects[i]->type].drawfunc != NULL && !objects[i]->delete) {
 			objfuncs[objects[i]->type].drawfunc(i);
 		}
 	i++;
@@ -51,9 +56,16 @@ void Objects_Draw() {
 void Object_Delete(unsigned short id) {
 	if (objects[id] != NULL) {
 		free(objects[id]);
-		memmove(&objects[id], &objects[id] + sizeof(char*), sizeof(char*)*((MAXOBJECTS-1) - id));
+		//memmove(&objects[id], &objects[id] + sizeof(char*), sizeof(char*)*((MAXOBJECTS-1) - id));
+		memmove(&objects[id], &objects[id+1], sizeof(char*)*((MAXOBJECTS-1) - id));
 		numobjects--;
 		objects[MAXOBJECTS-1]=NULL;
+	}
+}
+
+void Object_MarkForDeletion(unsigned short id) {
+	if (objects[id] != NULL) {
+		objects[id]->delete=true;
 	}
 }
 
